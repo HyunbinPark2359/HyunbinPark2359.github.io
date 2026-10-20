@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Douminuo, Hyunbin Park</title>
+<meta name="description" content="Douminuo, a Chrome extension for smartnuo used weekly by about 160 competitive Pokémon players.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wdth,wght@50..125,300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="page">
+  <nav class="topbar" aria-label="Main"><a class="home" href="index.html">HYUNBIN PARK</a><span><a href="index.html#work">Work</a><a href="index.html#about">About</a><a href="index.html#contact">Contact</a></span></nav>
+
+  <header class="cs-head">
+    <div>
+      <h1 class="cs-title">Douminuo</h1>
+      <p class="sum">A Chrome extension for smartnuo, the site most Korean competitive Pokémon players use to build teams and run damage calcs.</p>
+    </div>
+    <div>
+      <dl class="insp">
+        <dt>Role</dt><dd>Solo project</dd>
+        <dt>Built with</dt><dd>JavaScript, Chrome extension APIs</dd>
+        <dt>Timeline</dt><dd>Apr 2026 to now</dd>
+        <dt>Status</dt><dd>Live, 12 releases</dd>
+        <dt>Players</dt><dd>~160 weekly (Oct 2026)</dd>
+      </dl>
+      <div class="links"><a href="https://chromewebstore.google.com/detail/bmgohocnliecjcefhnaakbdcfjcdmoan">Chrome Web Store</a><a href="https://github.com/douminuo/douminuo/blob/main/README.en.md">GitHub (README.en.md)</a></div>
+    </div>
+  </header>
+
+  <div class="heroimg"><img src="assets/douminuo-overview.png" alt="Douminuo showing damage and bulk numbers on smartnuo's team page" width="2093" height="1152"></div>
+
+  <main class="cs-body">
+    <nav class="toc" aria-label="On this page">
+      <a href="#what">What it does</a><a href="#problems">Problems along the way</a><a href="#results">Results</a>
+    </nav>
+    <div class="col">
+      <h2 id="what">What it does</h2>
+      <p>smartnuo has a damage calculator and a team builder, but they don't talk to each other. Fine-tuning a Pokémon's EVs meant switching back and forth between the two tabs. Speed tiers lived on another site. Every calc started with typing your own Pokémon in by hand, and saving sets and teams was limited.</p>
+      <p>Douminuo handles all of that inside smartnuo. Damage output and bulk update as you edit, with about 60 abilities and 30 items factored in. A speed table shows what each Pokémon outspeeds, and one click sends a team member to the calculator.</p>
+      <div class="feat">
+        <figure><video src="assets/douminuo-calc.mp4" width="960" height="640" poster="assets/douminuo-calc.jpg" muted loop playsinline preload="none" data-autoplay aria-label="A team member is sent to the calculator in one click"></video><figcaption>Send a team member to the calculator in one click.</figcaption></figure>
+        <figure><video src="assets/douminuo-speed.mp4" width="960" height="640" poster="assets/douminuo-speed.jpg" muted loop playsinline preload="none" data-autoplay aria-label="The speed table lists which base Speed values a Pokémon outspeeds"></video><figcaption>See which base Speed values a Pokémon outspeeds.</figcaption></figure>
+      </div>
+
+      <h2 id="problems">Problems along the way</h2>
+      <div class="prob">
+        <h3>No extra load on smartnuo's server</h3>
+        <p>smartnuo is a nonprofit site its operator pays for out of pocket. From the first release, the rule was that Douminuo adds no load to its server. Every request the extension makes was audited, repeats are cached, and static data ships inside the extension. Copying a team went from up to 8 requests to none, and the first calculator run from about 100 PokéAPI calls to none.</p>
+      </div>
+      <div class="prob">
+        <h3>Surviving a full site rebuild</h3>
+        <p>When smartnuo moved to Nuxt 3, every feature broke at once. Version 1.3.0 switched to reading and writing the page's own state directly, and everything was back within a week.</p>
+      </div>
+
+      <h2 id="results">Results</h2>
+      <div class="nums">
+        <div><b>~160</b>weekly players</div>
+        <div><b>470</b>installs</div>
+        <div><b>12</b>releases since April</div>
+      </div>
+    </div>
+  </main>
+
+  <nav class="pager" aria-label="Projects"><a href="index.html#work">Back to work</a><a href="trashpunk-2077.html">Next: Trashpunk 2077</a></nav>
+</div>
+<script>
+  // Loops play only while on screen, and never under reduced motion (controls shown instead).
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const vids = document.querySelectorAll('video[data-autoplay]');
+  if (calm) vids.forEach(v => v.controls = true);
+  else {
+    const vio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? e.target.play() : e.target.pause()));
+    vids.forEach(v => vio.observe(v));
+  }
+  // Mark the TOC entry for the section nearest the top of the screen.
+  const tio = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) document.querySelectorAll('.toc a').forEach(a => a.setAttribute('aria-current', a.hash === '#' + e.target.id));
+  }), { rootMargin: '0px 0px -60% 0px' });
+  document.querySelectorAll('.col h2[id]').forEach(h => tio.observe(h));
+</script>
+</body>
+</html>
