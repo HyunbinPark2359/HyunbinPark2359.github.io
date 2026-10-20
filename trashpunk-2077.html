@@ -84,11 +84,17 @@
       vio.observe(v);
     });
   }
-  // Mark the TOC entry for the section nearest the top of the screen.
-  const tio = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) document.querySelectorAll('.toc a').forEach(a => a.setAttribute('aria-current', a.hash === '#' + e.target.id));
-  }), { rootMargin: '0px 0px -60% 0px' });
-  document.querySelectorAll('.col h2[id]').forEach(h => tio.observe(h));
+  // Mark the TOC entry for the last section whose heading has passed 40% down the screen.
+  // At the bottom of the page the last section wins, since short ones never reach that line.
+  const heads = [...document.querySelectorAll('.col h2[id]')];
+  const tocLinks = document.querySelectorAll('.toc a');
+  function markToc() {
+    const atEnd = scrollY + innerHeight >= document.documentElement.scrollHeight - 2;
+    const cur = atEnd ? heads.at(-1) : heads.filter(h => h.getBoundingClientRect().top < innerHeight * 0.4).at(-1) ?? heads[0];
+    tocLinks.forEach(a => a.hash === '#' + cur.id ? a.setAttribute('aria-current', 'location') : a.removeAttribute('aria-current'));
+  }
+  addEventListener('scroll', markToc, { passive: true });
+  markToc();
 </script>
 </body>
 </html>
