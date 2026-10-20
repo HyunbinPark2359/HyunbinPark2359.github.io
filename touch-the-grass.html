@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Touch the Grass, Hyunbin Park</title>
+<meta name="description" content="Touch the Grass, a small horror environment in Unity built from Hyunbin Park's own Maya models.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wdth,wght@50..125,300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="page">
+  <nav class="topbar" aria-label="Main"><a class="home" href="index.html">HYUNBIN PARK</a><span><a href="index.html#work">Work</a><a href="index.html#about">About</a><a href="index.html#contact">Contact</a></span></nav>
+
+  <header class="cs-head">
+    <div>
+      <h1 class="cs-title">Touch the Grass</h1>
+      <p class="sum">A small horror environment in Unity, built from models I made in Maya.</p>
+    </div>
+    <div>
+      <dl class="insp">
+        <dt>Role</dt><dd>Solo</dd>
+        <dt>Built with</dt><dd>Unity, Maya, C#</dd>
+        <dt>Focus</dt><dd>Modeling, lighting, post-processing</dd>
+      </dl>
+      <div class="links"><a href="https://hp2359.itch.io/touch-the-grass">Play on itch.io</a></div>
+    </div>
+  </header>
+
+  <div class="heroimg"><img src="assets/touch-the-grass.jpg" alt="A dim room lit by a single ceiling lamp, with a crack running down the wall" width="1600" height="1000"></div>
+
+  <main class="cs-body">
+    <nav class="toc" aria-label="On this page">
+      <a href="#built">What I built</a><a href="#process">Process</a><a href="#recognition">Recognition</a>
+    </nav>
+    <div class="col">
+      <h2 id="built">What I built</h2>
+      <p>A single room meant to make you uneasy. Every asset in it is my own model, with textures kept small so the scene stays light.</p>
+
+      <h2 id="process">Process</h2>
+      <p>I modeled the room and its props in Maya, then built the mood in Unity with dynamic lighting and post-processing.</p>
+
+      <h2 id="recognition">Recognition</h2>
+      <p>My professor picked the project as an example for future classes on 3D modeling and Unity workflows.</p>
+    </div>
+  </main>
+
+  <nav class="pager" aria-label="Projects"><a href="index.html#work">Back to work</a><a href="douminuo.html">Next: Douminuo</a></nav>
+</div>
+<script>
+  // Loops play only while on screen, and never under reduced motion (controls shown instead).
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const vids = document.querySelectorAll('video[data-autoplay]');
+  if (calm) vids.forEach(v => v.controls = true);
+  else {
+    const vio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? e.target.play() : e.target.pause()));
+    vids.forEach(v => vio.observe(v));
+  }
+  // Mark the TOC entry for the section nearest the top of the screen.
+  const tio = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) document.querySelectorAll('.toc a').forEach(a => a.setAttribute('aria-current', a.hash === '#' + e.target.id));
+  }), { rootMargin: '0px 0px -60% 0px' });
+  document.querySelectorAll('.col h2[id]').forEach(h => tio.observe(h));
+</script>
+</body>
+</html>
