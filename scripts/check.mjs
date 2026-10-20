@@ -41,6 +41,12 @@ for (const page of process.argv.slice(2)) {
     if (!existsExact(file)) fail(page, `broken local link: ${ref}`);
   }
 
+  // Links that leave the portfolio pages (other sites, the resume PDF) open in a new tab.
+  for (const a of html.match(/<a\b[^>]*>/gi) ?? []) {
+    if (!/href="(https?:[^"]*|[^"]*\.pdf)"/.test(a)) continue;
+    if (!/target="_blank"/.test(a) || !/rel="[^"]*noopener/.test(a)) fail(page, `external link not opening in new tab: ${a.slice(0, 80)}`);
+  }
+
   const text = visibleText(html);
   for (const [ch, name] of BANNED) if (text.includes(ch)) fail(page, `banned ${name} in visible text`);
 

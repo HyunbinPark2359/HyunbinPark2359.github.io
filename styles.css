@@ -34,6 +34,8 @@ a:hover { color: var(--accent); }
 .work { margin-top: 56px; display: grid; gap: 28px; }
 .proj { display: grid; grid-template-columns: 7fr 5fr; background: var(--surface); border: 1px solid var(--line); }
 .proj .media { border-right: 1px solid var(--line); background: var(--media); }
+/* Fill the media column when the side column is taller than the image. */
+.proj .media img { height: 100%; object-fit: cover; }
 .side { display: flex; flex-direction: column; }
 .proj h2 { font-stretch: 62%; font-weight: 850; font-size: 38px; line-height: 1; margin: 16px 16px 6px; }
 .blurb { margin: 0 16px 14px; font-size: 15px; max-width: 44ch; }
@@ -81,7 +83,7 @@ a:hover { color: var(--accent); }
 .nums b { display: block; font-stretch: 62%; font-weight: 850; font-size: 34px; color: var(--ink); line-height: 1.1; }
 .diagram { background: var(--surface); border: 1px solid var(--line); padding: 18px; margin: 6px 0 14px; overflow-x: auto; }
 .diagram svg { width: 100%; min-width: 520px; height: auto; font-family: "Saira", sans-serif; }
-.pager { display: flex; justify-content: space-between; gap: 16px; border-top: 4px solid var(--ink); margin-top: 56px; padding-top: 10px; font-weight: 600; }
+.pager { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; border-top: 4px solid var(--ink); margin-top: 56px; padding-top: 10px; font-weight: 600; }
 
 @media (max-width: 760px) {
   .page { padding: 20px 16px 40px; }
@@ -93,5 +95,8 @@ a:hover { color: var(--accent); }
   .other th { width: auto; }
   .other .eng { display: none; }
   .nums b { font-size: 26px; }
+  .pager { display: grid; grid-template-columns: 1fr 1fr; }
+  .pager a:nth-child(2) { order: 1; grid-column: 1 / -1; }
+  .pager a:last-child { text-align: right; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
