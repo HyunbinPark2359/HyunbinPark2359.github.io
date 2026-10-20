@@ -32,12 +32,20 @@ a:hover { color: var(--accent); }
 
 /* Featured projects */
 .work { margin-top: 56px; display: grid; gap: 28px; }
-.proj { display: grid; grid-template-columns: 7fr 5fr; background: var(--surface); border: 1px solid var(--line); }
+.proj { position: relative; display: grid; grid-template-columns: 7fr 5fr; background: var(--surface); border: 1px solid var(--line); }
 .proj .media { border-right: 1px solid var(--line); background: var(--media); }
 /* Fill the media column when the side column is taller than the image. */
 .proj .media img { height: 100%; object-fit: cover; }
 .side { display: flex; flex-direction: column; }
 .proj h2 { font-stretch: 62%; font-weight: 850; font-size: 38px; line-height: 1; margin: 16px 16px 6px; }
+/* The title link covers the whole card; the outside links sit above it. */
+.proj h2 a { text-decoration: none; }
+.proj h2 a::after { content: ""; position: absolute; inset: 0; }
+.proj h2 a:focus-visible { outline: none; }
+.proj:has(h2 a:focus-visible) { outline: 3px solid var(--accent); outline-offset: 2px; }
+.proj:has(h2 a:hover) { border-color: var(--ink); }
+.proj:has(h2 a:hover) h2 a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; }
+.proj .more a { position: relative; z-index: 1; }
 .blurb { margin: 0 16px 14px; font-size: 15px; max-width: 44ch; }
 .insp { display: grid; grid-template-columns: 96px 1fr; font-size: 14px; margin: 0; }
 .proj .insp { border-top: 1px solid var(--line); margin-top: auto; }
@@ -56,7 +64,15 @@ a:hover { color: var(--accent); }
 .about { display: grid; grid-template-columns: 160px 1fr; gap: 24px; align-items: start; }
 .about img { aspect-ratio: 1; object-fit: cover; object-position: 50% 30%; }
 .about p { max-width: 62ch; }
-.contact { display: flex; flex-wrap: wrap; gap: 10px 28px; font-size: 17px; font-weight: 600; }
+.contact { display: grid; grid-template-columns: repeat(5, 1fr); background: var(--surface); border: 1px solid var(--line); }
+.contact a { display: flex; flex-direction: column; gap: 14px; padding: 18px 16px; border-right: 1px solid var(--line); text-decoration: none; font-size: 17px; font-weight: 700; line-height: 1.2; }
+.contact a:last-child { border-right: 0; }
+.contact a:hover { color: var(--ink); background: var(--key); }
+.contact a:hover svg { color: var(--accent); }
+.contact svg { width: 32px; height: 32px; fill: currentColor; }
+.contact .cut { fill: none; stroke: var(--surface); stroke-width: 1.6; }
+.contact a:hover .cut { stroke: var(--key); }
+.contact small { display: block; margin-top: 3px; font-size: 14px; font-weight: 400; color: var(--muted); overflow-wrap: anywhere; }
 
 /* Case study */
 .cs-head { display: grid; grid-template-columns: 7fr 5fr; gap: 28px; margin-top: 36px; align-items: end; }
@@ -81,9 +97,9 @@ a:hover { color: var(--accent); }
 .nums div { padding: 12px 14px; border-right: 1px solid var(--line); font-size: 14px; color: var(--muted); }
 .nums div:last-child { border-right: 0; }
 .nums b { display: block; font-stretch: 62%; font-weight: 850; font-size: 34px; color: var(--ink); line-height: 1.1; }
-.diagram { background: var(--surface); border: 1px solid var(--line); padding: 18px; margin: 6px 0 14px; overflow-x: auto; }
-.diagram svg { width: 100%; min-width: 520px; height: auto; font-family: "Saira", sans-serif; }
-.pager { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; border-top: 4px solid var(--ink); margin-top: 56px; padding-top: 10px; font-weight: 600; }
+.pager { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px 16px; border-top: 4px solid var(--ink); margin-top: 56px; padding-top: 10px; font-weight: 600; }
+.pager a:nth-child(2) { justify-self: center; }
+.pager a:last-child { justify-self: end; text-align: right; }
 
 @media (max-width: 760px) {
   .page { padding: 20px 16px 40px; }
@@ -95,8 +111,11 @@ a:hover { color: var(--accent); }
   .other th { width: auto; }
   .other .eng { display: none; }
   .nums b { font-size: 26px; }
-  .pager { display: grid; grid-template-columns: 1fr 1fr; }
-  .pager a:nth-child(2) { order: 1; grid-column: 1 / -1; }
-  .pager a:last-child { text-align: right; }
+  .pager { grid-template-columns: 1fr 1fr; }
+  .pager a:nth-child(2) { order: 1; grid-column: 1 / -1; justify-self: start; }
+  .contact { grid-template-columns: 1fr; }
+  .contact a { flex-direction: row; align-items: center; border-right: 0; border-bottom: 1px solid var(--line); padding: 12px 14px; }
+  .contact a:last-child { border-bottom: 0; }
+  .contact svg { width: 28px; height: 28px; flex: none; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
