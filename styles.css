@@ -117,6 +117,8 @@ a:hover { color: var(--accent); }
   .about img { width: 140px; }
   .other th { width: auto; }
   .other .eng { display: none; }
+  /* No hover on touch screens, so mark the rows as links that open elsewhere. */
+  .other td:nth-child(2) { padding-right: 30px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235E6873' stroke-width='2.2' stroke-linecap='square'%3E%3Cpath d='M7 17 17 7M9 7h8v8'/%3E%3C/svg%3E") no-repeat right 4px center / 16px; }
   .nums b { font-size: 26px; }
   .pager { grid-template-columns: 1fr 1fr; }
   .pager a:nth-child(2) { order: 1; grid-column: 1 / -1; justify-self: start; }
