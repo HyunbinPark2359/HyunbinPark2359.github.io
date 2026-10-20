@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="page">
-  <nav class="topbar" aria-label="Main"><a class="home" href="index.html">HYUNBIN PARK</a><span><a href="index.html#work">Work</a><a href="index.html#about">About</a><a href="index.html#contact">Contact</a></span></nav>
+  <nav class="topbar" aria-label="Main"><a class="home" href="index.html">Hyunbin Park</a><span><a href="index.html#work">Work</a><a href="index.html#about">About</a><a href="index.html#contact">Contact</a></span></nav>
 
   <header class="cs-head">
     <div>
@@ -27,7 +27,7 @@
         <dt>Status</dt><dd>Live, 12 releases</dd>
         <dt>Players</dt><dd>~160 weekly (Oct 2026)</dd>
       </dl>
-      <div class="links"><a href="https://chromewebstore.google.com/detail/bmgohocnliecjcefhnaakbdcfjcdmoan">Chrome Web Store</a><a href="https://github.com/douminuo/douminuo/blob/main/README.en.md">GitHub (README.en.md)</a></div>
+      <div class="links"><a href="https://chromewebstore.google.com/detail/bmgohocnliecjcefhnaakbdcfjcdmoan">Chrome Web Store</a><a href="https://github.com/douminuo/douminuo/blob/main/README.en.md">GitHub</a></div>
     </div>
   </header>
 
@@ -68,13 +68,21 @@
   <nav class="pager" aria-label="Projects"><a href="index.html#work">Back to work</a><a href="trashpunk-2077.html">Next: Trashpunk 2077</a></nav>
 </div>
 <script>
-  // Loops play only while on screen, and never under reduced motion (controls shown instead).
+  // Loops play only while on screen, never under reduced motion; controls let anyone pause them.
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const vids = document.querySelectorAll('video[data-autoplay]');
-  if (calm) vids.forEach(v => v.controls = true);
-  else {
-    const vio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? e.target.play() : e.target.pause()));
-    vids.forEach(v => vio.observe(v));
+  vids.forEach(v => v.controls = true);
+  if (!calm) {
+    const vio = new IntersectionObserver(es => es.forEach(e => {
+      const v = e.target; v.inView = e.isIntersecting;
+      if (!v.inView) v.pause(); else if (!v.held) v.play();
+    }));
+    vids.forEach(v => {
+      // A loop the visitor paused stays paused when scrolled back into view.
+      v.addEventListener('pause', () => { if (v.inView) v.held = true; });
+      v.addEventListener('play', () => { v.held = false; });
+      vio.observe(v);
+    });
   }
   // Mark the TOC entry for the section nearest the top of the screen.
   const tio = new IntersectionObserver(es => es.forEach(e => {

@@ -41,6 +41,12 @@ for (const page of process.argv.slice(2)) {
   const text = visibleText(html);
   for (const [ch, name] of BANNED) if (text.includes(ch)) fail(page, `banned ${name} in visible text`);
 
+  let prev = 0;
+  for (const [, lvl] of html.matchAll(/<h([1-6])\b/g)) {
+    if (lvl - prev > 1) fail(page, `heading jumps from h${prev} to h${lvl}`);
+    prev = +lvl;
+  }
+
   for (const needle of REQUIRED[page] ?? []) {
     if (!html.includes(needle)) fail(page, `missing required content: ${needle}`);
   }
