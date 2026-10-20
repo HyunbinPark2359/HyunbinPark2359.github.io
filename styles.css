@@ -57,10 +57,17 @@ a:hover { color: var(--accent); }
 /* Sections */
 .sec-h { font-stretch: 62%; font-weight: 850; font-size: 34px; line-height: 1.05; margin: 64px 0 10px; }
 .other { width: 100%; border-collapse: collapse; font-size: 15px; }
-.other th, .other td { padding: 9px 10px 9px 0; border-top: 1px solid var(--line); vertical-align: baseline; }
+.other th, .other td { padding: 9px 10px; border-top: 1px solid var(--line); vertical-align: baseline; }
 .other th { font-weight: 700; text-align: left; width: 170px; }
 .other .eng { color: var(--muted); width: 110px; }
-.other .lk { text-align: right; width: 70px; }
+/* The name link covers the whole row. */
+.other tr { position: relative; }
+.other th a { text-decoration: none; }
+.other th a::after { content: ""; position: absolute; inset: 0; }
+.other th a:focus-visible { outline: none; }
+.other tr:has(a:focus-visible) { outline: 3px solid var(--accent); outline-offset: -1px; }
+.other tr:has(a:hover) { background: var(--surface); }
+.other tr:has(a:hover) th a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); }
 .about { display: grid; grid-template-columns: 160px 1fr; gap: 24px; align-items: start; }
 .about img { aspect-ratio: 1; object-fit: cover; object-position: 50% 30%; }
 .about p { max-width: 62ch; }
