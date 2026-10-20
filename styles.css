@@ -64,7 +64,7 @@ a:hover { color: var(--accent); }
 .toc { position: sticky; top: 16px; align-self: start; font-size: 14px; display: flex; flex-direction: column; gap: 6px; }
 .toc a { text-decoration: none; color: var(--muted); padding-left: 8px; }
 .toc a[aria-current="true"] { color: var(--ink); font-weight: 700; box-shadow: inset 3px 0 0 var(--accent); }
-.col { max-width: 70ch; line-height: 1.6; }
+.col { max-width: 70ch; min-width: 0; line-height: 1.6; }
 .col h2 { font-stretch: 62%; font-weight: 850; font-size: 32px; line-height: 1.05; margin: 40px 0 12px; scroll-margin-top: 16px; }
 .col h2:first-child { margin-top: 0; }
 .feat { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 6px 0 4px; }
@@ -76,8 +76,8 @@ a:hover { color: var(--accent); }
 .nums div { padding: 12px 14px; border-right: 1px solid var(--line); font-size: 14px; color: var(--muted); }
 .nums div:last-child { border-right: 0; }
 .nums b { display: block; font-stretch: 62%; font-weight: 850; font-size: 34px; color: var(--ink); line-height: 1.1; }
-.diagram { background: var(--surface); border: 1px solid var(--line); padding: 18px; margin: 6px 0 14px; }
-.diagram svg { width: 100%; height: auto; font-family: "Saira", sans-serif; }
+.diagram { background: var(--surface); border: 1px solid var(--line); padding: 18px; margin: 6px 0 14px; overflow-x: auto; }
+.diagram svg { width: 100%; min-width: 520px; height: auto; font-family: "Saira", sans-serif; }
 .pager { display: flex; justify-content: space-between; gap: 16px; border-top: 4px solid var(--ink); margin-top: 56px; padding-top: 10px; font-weight: 600; }
 
 @media (max-width: 760px) {
