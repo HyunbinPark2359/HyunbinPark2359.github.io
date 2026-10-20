@@ -1,6 +1,6 @@
 // Static-site checks. Usage: node scripts/check.mjs index.html douminuo.html
 import { readFileSync, existsSync, statSync, readdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join, dirname, basename } from 'node:path';
 
 const MAX_ASSET_BYTES = 6 * 1024 * 1024;
 const BANNED = [['—', 'em dash'], ['–', 'en dash'], ['→', 'arrow'], [' · ', 'middle-dot meta']];
@@ -13,6 +13,9 @@ const REQUIRED = {
 
 const fails = [];
 const fail = (page, msg) => fails.push(`FAIL ${page}: ${msg}`);
+
+// NTFS ignores case but GitHub Pages does not, so every path segment must match exactly.
+const existsExact = f => existsSync(f) && (dirname(f) === f || (readdirSync(dirname(f)).includes(basename(f)) && existsExact(dirname(f))));
 
 function visibleText(html) {
   return html
@@ -34,8 +37,8 @@ for (const page of process.argv.slice(2)) {
 
   for (const [, ref] of html.matchAll(/\b(?:href|src|poster)="([^"]+)"/g)) {
     if (/^(https?:|mailto:|#|data:)/.test(ref)) continue;
-    const file = join(dirname(page), ref.split('#')[0]);
-    if (!existsSync(file)) fail(page, `broken local link: ${ref}`);
+    const file = join(dirname(page), ref.split(/[?#]/)[0]);
+    if (!existsExact(file)) fail(page, `broken local link: ${ref}`);
   }
 
   const text = visibleText(html);
