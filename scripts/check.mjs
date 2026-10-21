@@ -30,6 +30,8 @@ for (const page of process.argv.slice(2)) {
   if (!/<html lang="en">/.test(html)) fail(page, 'missing <html lang="en">');
   if (!/<title>[^<]+<\/title>/.test(html)) fail(page, 'missing <title>');
   if (!/name="viewport"/.test(html)) fail(page, 'missing viewport meta');
+  // Hyunbin wants the site kept out of search results.
+  if (!/<meta name="robots" content="noindex">/.test(html)) fail(page, 'missing robots noindex meta');
 
   for (const img of html.match(/<img\b[^>]*>/gi) ?? []) {
     if (!/\balt="/.test(img)) fail(page, `img without alt: ${img.slice(0, 80)}`);
