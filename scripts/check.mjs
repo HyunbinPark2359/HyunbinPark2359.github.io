@@ -6,7 +6,7 @@ const MAX_ASSET_BYTES = 6 * 1024 * 1024;
 const BANNED = [['—', 'em dash'], ['–', 'en dash'], ['→', 'arrow'], [' · ', 'middle-dot meta']];
 const REQUIRED = {
   'index.html': ['Open to co-op from January 2027', 'Douminuo', 'Trashpunk 2077', 'Touch the Grass', 'Other work', 'hp2359@rit.edu'],
-  'douminuo.html': ['Problems along the way', '~160', '470', 'README.en.md'],
+  'douminuo.html': ['Problems along the way', '~170', '470', 'README.en.md'],
   'trashpunk-2077.html': ['Netcode for GameObjects', '7 people', 'In development'],
   'touch-the-grass.html': ['Maya', 'hp2359.itch.io/touch-the-grass'],
 };
